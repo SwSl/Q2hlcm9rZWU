@@ -87,13 +87,17 @@ openssl req -new -x509 -config /etc/httpd/conf.d/openssl.cnf -key /etc/httpd/con
 cp /etc/httpd/conf.d/server.crt /etc/pki/tls/certs
 cp /etc/httpd/conf.d/server.key /etc/pki/tls/private
 chmod go-r /etc/pki/tls/private/server.key
-mkdir /var/www/fake/
-mkdir /var/www/fake/epitech/
-mkdir /var/www/fake/epitech/portal/
-mkdir /var/www/fake/epitech/perso/
-mkdir /var/www/fake/epitech/admin/
+#mkdir /var/www/fake/
+#mkdir /var/www/fake/epitech/
+#mkdir /var/www/fake/epitech/portal/
+#mkdir /var/www/fake/epitech/perso/
+#mkdir /var/www/fake/epitech/admin/
 echo $(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d'/') epitech.fake portal.epitech.fake admin.epitech.fake perso.epitech.fake >> /etc/hosts
 echo > /etc/httpd/conf.d/ssl.conf
 echo > /etc/httpd/conf.d/userdir.conf
 echo > /etc/httpd/conf.d/welcome.conf
+while read line;
+do
+	curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master$line > /var/www/fake/epitech$line
+done < curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master/map
 reboot
