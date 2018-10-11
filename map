@@ -1,6 +1,5 @@
 /admin/.htaccess
 /admin/.htpasswd
 /admin/index.php
-/ads.sh
 /perso/index.php
 /portal/index.html
