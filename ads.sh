@@ -1,10 +1,9 @@
 #!/bin/bash
-yum update
 yum install httpd mod_ssl openssl mod_php -y
 firewall-cmd --add-service=http --permanent
 firewall-cmd --add-service=https --permanent
-firewall-cmd --add-port=80 --permanent
-firewall-cmd --add-port=443 --permanent
+firewall-cmd --add-port=80/tcp --permanent
+firewall-cmd --add-port=443/tcp --permanent
 cat << EOF > /etc/httpd/conf.d/vhosts.conf
 ServerName epitech.fake
 
@@ -96,8 +95,8 @@ echo $(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d'
 echo > /etc/httpd/conf.d/ssl.conf
 echo > /etc/httpd/conf.d/userdir.conf
 echo > /etc/httpd/conf.d/welcome.conf
-while read line;
+for line in $(curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master/map);
 do
 	curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master$line > /var/www/fake/epitech$line
-done < curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master/map
+done
 reboot
