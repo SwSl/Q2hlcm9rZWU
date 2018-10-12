@@ -13,7 +13,7 @@ ServerName epitech.fake
 	DocumentRoot /var/www/fake/epitech/portal
 	ServerName portal.epitech.fake
 	ErrorLog "logs/fake.epitech.portal-error.log"
-	CustomLog "logs/fake.epitech.portal-error.log" common
+	CustomLog "logs/fake.epitech.portal-access.log" common
 </VirtualHost>
 
 <VirtualHost portal.epitech.fake:443>
@@ -24,7 +24,7 @@ ServerName epitech.fake
 	SSLCertificateFile "/etc/pki/tls/certs/server.crt"
 	SSLCertificateKeyFile "/etc/pki/tls/private/server.key"
 	ErrorLog "logs/fake.epitech.portal-error.log"
-	CustomLog "logs/fake.epitech.portal-error.log" common
+	CustomLog "logs/fake.epitech.portal-access.log" common
 </VirtualHost>
 
 <VirtualHost admin.epitech.fake:80>
@@ -32,7 +32,13 @@ ServerName epitech.fake
 	DocumentRoot /var/www/fake/epitech/admin
 	ServerName admin.epitech.fake
 	ErrorLog "logs/fake.epitech.admin-error.log"
-	CustomLog "logs/fake.epitech.admin-error.log" common
+	CustomLog "logs/fake.epitech.admin-access.log" common
+	<Directory />
+		AuthType Basic
+		AuthName "Please Log In"
+		AuthUserFile /var/www/fake/epitech/admin/.htpasswd
+		Require valid-user
+	</Directory>
 </VirtualHost>
 
 <VirtualHost admin.epitech.fake:443>
@@ -43,7 +49,13 @@ ServerName epitech.fake
 	SSLCertificateFile "/etc/pki/tls/certs/server.crt"
 	SSLCertificateKeyFile "/etc/pki/tls/private/server.key"
 	ErrorLog "logs/fake.epitech.admin-error.log"
-	CustomLog "logs/fake.epitech.admin-error.log" common
+	CustomLog "logs/fake.epitech.admin-access.log" common
+	<Directory />
+		AuthType Basic
+		AuthName "Please Log In"
+		AuthUserFile /var/www/fake/epitech/admin/.htpasswd
+		Require valid-user
+	</Directory>
 </VirtualHost>
 
 <VirtualHost perso.epitech.fake:443>
@@ -54,7 +66,7 @@ ServerName epitech.fake
 	SSLCertificateFile "/etc/pki/tls/certs/server.crt"
 	SSLCertificateKeyFile "/etc/pki/tls/private/server.key"
 	ErrorLog "logs/fake.epitech.perso-error.log"
-	CustomLog "logs/fake.epitech.perso-error.log" common
+	CustomLog "logs/fake.epitech.perso-access.log" common
 </VirtualHost>
 EOF
 cat << EOF > /etc/httpd/conf.d/openssl.cnf
@@ -94,7 +106,6 @@ mkdir /var/www/fake/epitech/portal/
 mkdir /var/www/fake/epitech/perso/
 mkdir /var/www/fake/epitech/admin/
 echo $(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d'/') epitech.fake portal.epitech.fake admin.epitech.fake perso.epitech.fake >> /etc/hosts
-echo > /etc/httpd/conf.d/userdir.conf
 echo > /etc/httpd/conf.d/welcome.conf
 for line in $(curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master/map);
 do
