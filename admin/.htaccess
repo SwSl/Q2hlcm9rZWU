@@ -1,4 +1,4 @@
 AuthType Basic
 AuthName "Please Log In"
-AuthUserFile .htpasswd
+AuthUserFile /var/www/fake/epitech/admin/.htpasswd
 Require valid-user
