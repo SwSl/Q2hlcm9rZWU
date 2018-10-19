@@ -1,4 +1,19 @@
 #!/bin/bash
+if [ $# > 1 ]
+then
+	if [[ "$1" == "--site" ]]
+	then
+		rm -rf /var/www/fake/epitech/*
+		mkdir /var/www/fake/epitech/portal/
+		mkdir /var/www/fake/epitech/perso/
+		mkdir /var/www/fake/epitech/admin/
+		for line in $(curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master/map);
+		do
+			curl https://raw.githubusercontent.com/SwSl/Q2hlcm9rZWU/master$line > /var/www/fake/epitech$line
+		done
+		exit
+	fi
+fi
 yum install httpd mod_ssl openssl mod_php -y
 systemctl enable httpd.service
 firewall-cmd --add-service=http --permanent
