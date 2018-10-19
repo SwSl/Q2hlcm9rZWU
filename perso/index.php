@@ -4,8 +4,8 @@ $c = array(
 	'');
 $db = new PDO('mysql:host=localhost;dbname=perso', $c[0], $c[1]);
 if (!isset($_SESSION["isLogged"])) {
-	$user = mysql_real_escape_string($_POST["user"] ?? "");
-	$pass = mysql_real_escape_string($_POST["pass"] ?? "");
+	$user = mysql_real_escape_string(isset($_POST["user"]) ? $_POST["user"] : "");
+	$pass = mysql_real_escape_string(isset($_POST["pass"]) ? $_POST["pass"] : "");
 	if ($user != "" && $pass != "") {
 		$res = $db->query("SELECT 1 from users where user == '$user' and pass == '$pass'");
 		if (isset($res->fetch()))
