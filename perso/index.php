@@ -7,8 +7,8 @@ if (!isset($_SESSION["isLogged"])) {
 	$user = mysql_real_escape_string(isset($_POST["user"]) ? $_POST["user"] : "");
 	$pass = mysql_real_escape_string(isset($_POST["pass"]) ? $_POST["pass"] : "");
 	if ($user != "" && $pass != "") {
-		$db->query("SELECT 1 from users where user == '$user' and pass == '$pass'");
-		if ($db->fetch())
+		$res = $db->query("SELECT 1 from users where user == '$user' and pass == '$pass'");
+		if ($res->rowCount() > 0)
 			$_SESSION["isLogged"] = true;
 	}
 } else {
