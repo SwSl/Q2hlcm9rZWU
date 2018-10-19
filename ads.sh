@@ -14,7 +14,7 @@ then
 		exit
 	fi
 fi
-yum install httpd mod_ssl openssl mod_php -y
+yum install httpd mod_ssl openssl mod_php php-pdo php-mysqli -y
 systemctl enable httpd.service
 firewall-cmd --add-service=http --permanent
 firewall-cmd --add-service=https --permanent
